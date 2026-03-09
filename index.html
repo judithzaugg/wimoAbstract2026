@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WiMo 2026 – Abstract Checklist (Tutoriat Judith Zaugg)</title>
+  <style>
+    :root {
+      --blue:    #1a56a8;
+      --blue-lt: #e8f0fb;
+      --green:   #1a7a45;
+      --green-lt:#e6f4ec;
+      --red:     #b91c1c;
+      --red-lt:  #fee2e2;
+      --gray:    #6b7280;
+      --gray-lt: #f3f4f6;
+      --border:  #d1d5db;
+      --radius:  10px;
+      --shadow:  0 2px 8px rgba(0,0,0,.10);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f0f4fa;
+      color: #1f2937;
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+
+    /* ── Header ─────────────────────────────────────────── */
+    header {
+      background: var(--blue);
+      color: #fff;
+      padding: 20px 20px 16px;
+      text-align: center;
+    }
+    header h1 { font-size: 1.3rem; font-weight: 700; line-height: 1.3; }
+    header p  { font-size: .85rem; opacity: .85; margin-top: 4px; }
+
+    /* ── Main container ──────────────────────────────────── */
+    main { max-width: 680px; margin: 0 auto; padding: 16px 12px; }
+
+    /* ── Info card ───────────────────────────────────────── */
+    .info-card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px 16px;
+      margin-bottom: 16px;
+    }
+    .info-card label {
+      display: block;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--gray);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-bottom: 5px;
+    }
+    .info-card input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 7px;
+      font-size: 1rem;
+      color: #1f2937;
+      background: #fafafa;
+      transition: border-color .2s;
+    }
+    .info-card input:focus {
+      outline: none;
+      border-color: var(--blue);
+      background: #fff;
+    }
+    .info-card .row { display: flex; gap: 12px; }
+    .info-card .row > div { flex: 1; }
+    .optional-tag {
+      font-size: .7rem;
+      font-weight: 400;
+      color: #9ca3af;
+      margin-left: 4px;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    /* ── Progress bar ────────────────────────────────────── */
+    .progress-wrap {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 14px 16px;
+      margin-bottom: 16px;
+    }
+    .progress-wrap .prog-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: .82rem;
+      color: var(--gray);
+      margin-bottom: 7px;
+    }
+    .progress-bar-bg {
+      height: 8px;
+      background: #e5e7eb;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), #3b82f6);
+      border-radius: 99px;
+      width: 0%;
+      transition: width .4s ease;
+    }
+
+    /* ── Section ─────────────────────────────────────────── */
+    .section {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+    .section-header {
+      background: var(--blue);
+      color: #fff;
+      padding: 11px 16px;
+      font-size: .95rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-header .sec-num {
+      background: rgba(255,255,255,.25);
+      border-radius: 50%;
+      width: 26px; height: 26px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    /* ── Criterion row ───────────────────────────────────── */
+    .criterion {
+      padding: 12px 16px;
+      border-bottom: 1px solid #f0f2f5;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .criterion:last-child { border-bottom: none; }
+    .criterion-text {
+      font-size: .9rem;
+      line-height: 1.45;
+      color: #1f2937;
+    }
+    .criterion-text em {
+      display: block;
+      font-size: .78rem;
+      font-style: italic;
+      color: #6b7280;
+      margin-top: 2px;
+    }
+
+    /* ── Toggle buttons ──────────────────────────────────── */
+    .toggle-group {
+      display: flex;
+      gap: 8px;
+    }
+    .toggle-btn {
+      flex: 1;
+      padding: 9px 6px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: #fafafa;
+      font-size: .82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .18s;
+      color: #6b7280;
+      text-align: center;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .toggle-btn:active { transform: scale(.96); }
+
+    .toggle-btn.yes.active  { background: var(--green-lt); border-color: var(--green); color: var(--green); }
+    .toggle-btn.no.active   { background: var(--red-lt);   border-color: var(--red);   color: var(--red);   }
+    .toggle-btn.na.active   { background: var(--gray-lt);  border-color: #9ca3af;      color: #374151;      }
+
+    .toggle-btn.yes:not(.active):hover { border-color: #6ee7b7; background: #f0fdf4; }
+    .toggle-btn.no:not(.active):hover  { border-color: #fca5a5; background: #fff5f5; }
+    .toggle-btn.na:not(.active):hover  { border-color: #9ca3af; background: #f9fafb; }
+
+    /* ── Submit area ─────────────────────────────────────── */
+    .submit-wrap {
+      margin-top: 8px;
+      padding: 0 4px;
+    }
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+      box-shadow: 0 4px 12px rgba(26,86,168,.30);
+    }
+    .submit-btn:hover   { background: #1748c0; }
+    .submit-btn:active  { transform: scale(.98); }
+    .submit-btn:disabled { background: #9ca3af; cursor: not-allowed; box-shadow: none; }
+
+    /* ── Toast / Status messages ─────────────────────────── */
+    #toast {
+      position: fixed;
+      bottom: 20px; left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1f2937;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: .9rem;
+      font-weight: 500;
+      box-shadow: 0 6px 20px rgba(0,0,0,.25);
+      transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+      white-space: nowrap;
+      z-index: 1000;
+    }
+    #toast.show { transform: translateX(-50%) translateY(0); }
+    #toast.success { background: var(--green); }
+    #toast.error   { background: var(--red); }
+
+    /* ── Success screen ──────────────────────────────────── */
+    #success-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      text-align: center;
+      padding: 30px 20px;
+    }
+    #success-screen.show { display: flex; }
+    .success-icon {
+      width: 72px; height: 72px;
+      background: var(--green-lt);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem;
+      margin-bottom: 18px;
+    }
+    #success-screen h2 { font-size: 1.4rem; color: var(--green); margin-bottom: 8px; }
+    #success-screen p  { color: var(--gray); font-size: .95rem; max-width: 300px; line-height: 1.5; }
+    .new-review-btn {
+      margin-top: 24px;
+      padding: 13px 32px;
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 30px;
+    }
+    .new-review-btn:hover { background: #1748c0; }
+
+    /* ── Validation highlight ────────────────────────────── */
+    .criterion.missing .criterion-text { color: var(--red); }
+    .criterion.missing .toggle-group   { background: #fff0f0; border-radius: 8px; padding: 4px; }
+
+    /* ── Config notice (shown when SCRIPT_URL not set) ───── */
+    #config-notice {
+      background: #fffbeb;
+      border: 2px solid #f59e0b;
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      font-size: .88rem;
+      line-height: 1.5;
+      display: none;
+    }
+    #config-notice strong { color: #92400e; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>WiMo 2026 — Abstract Checklist</h1>
+  <p>Rate each criterion: Yes · No · N/A</p>
+</header>
+
+<main id="main-content">
+
+  <!-- Config notice shown if Apps Script URL not set 
+  <div id="config-notice">
+    ⚠️ <strong>Setup needed:</strong> Open this HTML file and replace <code>https://script.google.com/macros/s/AKfycbzsAIu7oC2JpHPhwQqo8z0u1HV9WxcSK74ZEel0YQM6ulHq717cwA286wDdPswpyScD/exec</code>
+    with your deployed Google Apps Script URL. See the included <em>SETUP_INSTRUCTIONS.md</em> for details.
+  </div>-->
+  
+  <!-- Student info -->
+  <div class="info-card">
+    <div class="row">
+      <div>
+        <label>Abstract Number <span style="color:var(--red)">*</span></label>
+        <input type="number" id="abstract-number" placeholder="e.g. 42" min="1" inputmode="numeric" />
+      </div>
+      <div>
+        <label>Your Name <span class="optional-tag">(optional)</span></label>
+        <input type="text" id="student-name" placeholder="e.g. Maria M." />
+      </div>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <div class="prog-label">
+      <span>Progress</span>
+      <span id="prog-text">0 / 37 answered</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="prog-fill"></div>
+    </div>
+  </div>
+
+  <!-- ═══ SECTION 1: Title & Authors ══════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">1</div>
+      Title &amp; Authors
+    </div>
+
+    <div class="criterion" data-id="q1">
+      <div class="criterion-text">Is there a title?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q1','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q1','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q1','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q2">
+      <div class="criterion-text">Is the title dynamic and informative?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q2','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q2','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q2','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q3">
+      <div class="criterion-text">Is the title short and concise?
+        <em>10–12 words</em>
+      </div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q3','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q3','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q3','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q4">
+      <div class="criterion-text">Is the list of authors included?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q4','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q4','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q4','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q5">
+      <div class="criterion-text">Is the list of affiliations included?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q5','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q5','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q5','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q6">
+      <div class="criterion-text">Is each author listed with a numbered affiliation?
+        <em>e.g. Müller C¹, Adams H²</em>
+      </div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q6','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q6','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q6','na')">— N/A</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SECTION 2: Introduction / Background ════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">2</div>
+      Introduction / Background
+    </div>
+
+    <div class="criterion" data-id="q7">
+      <div class="criterion-text">Is there an "Introduction / Background" section?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q7','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q7','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q7','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q8">
+      <div class="criterion-text">Is the introduction sentence directly related to the aim and not too banal?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q8','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q8','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q8','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q9">
+      <div class="criterion-text">Is the motivation / hypothesis stated?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q9','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q9','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q9','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q10">
+      <div class="criterion-text">Is the aim clearly stated?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q10','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q10','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q10','na')">— N/A</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SECTION 3: Material and Methods ═════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">3</div>
+      Material and Methods
+    </div>
+
+    <div class="criterion" data-id="q11">
+      <div class="criterion-text">Is there a "Material and Methods" section?
+        <em>also "Methods" or "Patients and Methods"</em>
+      </div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q11','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q11','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q11','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q12">
+      <div class="criterion-text">Is the methodology / study design clearly stated?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q12','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q12','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q12','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q13">
+      <div class="criterion-text">Has the sample size of the patient cohort been included?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q13','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q13','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q13','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q14">
+      <div class="criterion-text">Are relevant patient characteristics included?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q14','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q14','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q14','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q15">
+      <div class="criterion-text">Has the type of material investigated been stated?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q15','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q15','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q15','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q16">
+      <div class="criterion-text">Have the tools for data acquisition been stated?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q16','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q16','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q16','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q17">
+      <div class="criterion-text">Have the statistical methods been stated?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q17','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q17','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q17','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q18">
+      <div class="criterion-text">Have all results been excluded from this section?
+        <em>There should be no results in Methods</em>
+      </div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q18','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q18','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q18','na')">— N/A</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SECTION 4: Results ═══════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">4</div>
+      Results / Expected Results
+    </div>
+
+    <div class="criterion" data-id="q19">
+      <div class="criterion-text">Is there a "Results" / "Expected Results" section?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q19','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q19','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q19','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q20">
+      <div class="criterion-text">Are the results / expected results clearly presented?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q20','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q20','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q20','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q21">
+      <div class="criterion-text">Have only the most important findings been included?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q21','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q21','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q21','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q22">
+      <div class="criterion-text">Are findings supported with data (not just arguments)?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q22','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q22','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q22','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q23">
+      <div class="criterion-text">Have conclusions been excluded from this section?
+        <em>Conclusions should not appear in Results</em>
+      </div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q23','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q23','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q23','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q24">
+      <div class="criterion-text">Are means, medians, standard deviations, min/max etc. presented?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q24','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q24','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q24','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q25">
+      <div class="criterion-text">Are frequencies stated?
+        <em>Number of patients with X compared to Y</em>
+      </div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q25','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q25','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q25','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q26">
+      <div class="criterion-text">Are p-values, coefficients, correlations, and/or ratios stated?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q26','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q26','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q26','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q27">
+      <div class="criterion-text">Are confidence intervals for ratios stated?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q27','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q27','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q27','na')">— N/A</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SECTION 5: Conclusions ═══════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">5</div>
+      Conclusions
+    </div>
+
+    <div class="criterion" data-id="q28">
+      <div class="criterion-text">Is there a "Conclusions" section?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q28','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q28','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q28','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q29">
+      <div class="criterion-text">Is there a clear study-finding sentence?
+        <em>"Our study showed…" / "The novel findings of this study are…"</em>
+      </div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q29','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q29','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q29','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q30">
+      <div class="criterion-text">Have strong statements that over-estimate the work been avoided?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q30','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q30','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q30','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q31">
+      <div class="criterion-text">Is the conclusion based ONLY on the present study findings?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q31','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q31','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q31','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q32">
+      <div class="criterion-text">Is there a clear statement of relevance?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q32','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q32','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q32','na')">— N/A</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SECTION 6: Other Issues ══════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="sec-num">6</div>
+      Other Issues
+    </div>
+
+    <div class="criterion" data-id="q33">
+      <div class="criterion-text">Have non-descriptive words been avoided?
+        <em>"good", "bad", "a lot", "less", etc.</em>
+      </div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q33','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q33','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q33','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q34">
+      <div class="criterion-text">Have all abbreviations been spelled out the first time they were used?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q34','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q34','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q34','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q35">
+      <div class="criterion-text">Is the word count within the required limit?
+        <em>Max. 300 words on Abstractor</em>
+      </div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q35','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q35','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q35','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q36">
+      <div class="criterion-text">Is the abstract structured according to the guidelines?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q36','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q36','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q36','na')">— N/A</button>
+      </div>
+    </div>
+
+    <div class="criterion" data-id="q37">
+      <div class="criterion-text">Have language, grammar, and style been checked?</div>
+      <div class="toggle-group">
+        <button class="toggle-btn yes" onclick="select(this,'q37','yes')">✓ Yes</button>
+        <button class="toggle-btn no"  onclick="select(this,'q37','no')">✗ No</button>
+        <button class="toggle-btn na"  onclick="select(this,'q37','na')">— N/A</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <div class="submit-wrap">
+    <button class="submit-btn" id="submit-btn" onclick="submitForm()">
+      Submit Rating
+    </button>
+  </div>
+
+</main>
+
+<!-- Success screen -->
+<div id="success-screen">
+  <div class="success-icon">✓</div>
+  <h2>Rating Submitted!</h2>
+  <p>Your checklist for Abstract #<span id="success-abstract-num">—</span> has been recorded.</p>
+  <button class="new-review-btn" onclick="resetForm()">Rate Another Abstract</button>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script>
+  // ── Configuration ──────────────────────────────────────────
+  // Replace this URL with your deployed Google Apps Script URL
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzsAIu7oC2JpHPhwQqo8z0u1HV9WxcSK74ZEel0YQM6ulHq717cwA286wDdPswpyScD/exec";
+
+  const TOTAL = 37;
+  const answers = {};
+
+  // Show config notice if URL not set
+  if (SCRIPT_URL === "YOUR_APPS_SCRIPT_URL_HERE") {
+    document.getElementById("config-notice").style.display = "block";
+  }
+
+  // ── Selection ──────────────────────────────────────────────
+  function select(btn, qid, val) {
+    const row = btn.closest('.criterion');
+    // Deactivate all siblings
+    row.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    answers[qid] = val;
+    row.classList.remove('missing');
+    updateProgress();
+  }
+
+  // ── Progress ───────────────────────────────────────────────
+  function updateProgress() {
+    const answered = Object.keys(answers).length;
+    document.getElementById('prog-text').textContent = `${answered} / ${TOTAL} answered`;
+    document.getElementById('prog-fill').style.width = `${(answered / TOTAL) * 100}%`;
+  }
+
+  // ── Submit ─────────────────────────────────────────────────
+  async function submitForm() {
+    const abstractNum = document.getElementById('abstract-number').value.trim();
+    const studentName = document.getElementById('student-name').value.trim();
+
+    // Validate abstract number
+    if (!abstractNum) {
+      showToast('Please enter an abstract number.', 'error');
+      document.getElementById('abstract-number').focus();
+      return;
+    }
+
+    // Check all 37 answered
+    const missing = [];
+    for (let i = 1; i <= TOTAL; i++) {
+      if (!answers[`q${i}`]) missing.push(`q${i}`);
+    }
+    if (missing.length > 0) {
+      missing.forEach(qid => {
+        document.querySelector(`.criterion[data-id="${qid}"]`).classList.add('missing');
+      });
+      // Scroll to first missing
+      const first = document.querySelector('.criterion.missing');
+      if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      showToast(`${missing.length} question(s) still unanswered.`, 'error');
+      return;
+    }
+
+    // Build payload
+    const payload = {
+      timestamp: new Date().toISOString(),
+      abstractNumber: abstractNum,
+      studentName: studentName || "Anonymous",
+    };
+    for (let i = 1; i <= TOTAL; i++) {
+      payload[`q${i}`] = answers[`q${i}`];
+    }
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+
+    try {
+      if (SCRIPT_URL === "YOUR_APPS_SCRIPT_URL_HERE") {
+        // Demo mode: just show success without sending
+        await new Promise(r => setTimeout(r, 800));
+        showSuccess(abstractNum);
+        return;
+      }
+
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      showSuccess(abstractNum);
+    } catch (err) {
+      showToast('Submission failed. Check your connection and try again.', 'error');
+      btn.disabled = false;
+      btn.textContent = 'Submit Rating';
+    }
+  }
+
+  function showSuccess(abstractNum) {
+    document.getElementById('success-abstract-num').textContent = abstractNum;
+    document.getElementById('main-content').style.display = 'none';
+    const sc = document.getElementById('success-screen');
+    sc.style.display = 'flex';
+    sc.classList.add('show');
+  }
+
+  function resetForm() {
+    // Reset answers
+    for (const key in answers) delete answers[key];
+
+    // Reset buttons
+    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.criterion').forEach(c => c.classList.remove('missing'));
+
+    // Reset inputs
+    document.getElementById('abstract-number').value = '';
+    document.getElementById('student-name').value = '';
+
+    // Reset progress
+    updateProgress();
+
+    // Reset submit btn
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = false;
+    btn.textContent = 'Submit Rating';
+
+    // Show form
+    document.getElementById('success-screen').style.display = 'none';
+    document.getElementById('main-content').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── Toast ──────────────────────────────────────────────────
+  function showToast(msg, type = '') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = type ? `show ${type}` : 'show';
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => { t.className = ''; }, 3500);
+  }
+</script>
+</body>
+</html>
